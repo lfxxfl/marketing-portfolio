@@ -1,7 +1,27 @@
-import { copyFile, mkdir, readdir, rm, stat, writeFile } from 'node:fs/promises';
+import {
+  copyFile,
+  mkdir,
+  readdir,
+  rename,
+  rm,
+  stat,
+  writeFile,
+} from 'node:fs/promises';
 import path from 'node:path';
 
 const outputDirectory = path.resolve('dist/client');
+const repositoryName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? '';
+const inferredPagesBasePath =
+  process.env.GITHUB_ACTIONS === 'true' &&
+  repositoryName &&
+  !repositoryName.endsWith('.github.io')
+    ? repositoryName
+    : '';
+const pagesBasePath = (
+  process.env.NEXT_PUBLIC_BASE_PATH ?? inferredPagesBasePath
+)
+  .replace(/^\//, '')
+  .replace(/\/$/, '');
 const unpublishedSourceVideos = [
   'assets/projects/my-work/video-editing/cruel-summer.mov',
   'assets/projects/my-work/others/delta-virus-scriptwriting.mp4',
@@ -25,6 +45,30 @@ async function collectFiles(directory) {
 
 for (const sourceVideo of unpublishedSourceVideos) {
   await rm(path.join(outputDirectory, sourceVideo), { force: true });
+}
+
+// vinext writes asset-prefixed framework files into a matching nested folder.
+// GitHub Pages already mounts the artifact at the repository base path, so the
+// physical artifact must keep `_next` at its root while HTML URLs retain the
+// `/repository/_next/...` prefix.
+if (pagesBasePath) {
+  const nestedFrameworkDirectory = path.join(
+    outputDirectory,
+    pagesBasePath,
+    '_next',
+  );
+  const rootFrameworkDirectory = path.join(outputDirectory, '_next');
+
+  try {
+    await stat(nestedFrameworkDirectory);
+    await rename(nestedFrameworkDirectory, rootFrameworkDirectory);
+    await rm(path.join(outputDirectory, pagesBasePath), {
+      recursive: true,
+      force: true,
+    });
+  } catch (error) {
+    if (error?.code !== 'ENOENT') throw error;
+  }
 }
 
 const htmlFiles = (await collectFiles(outputDirectory)).filter(
