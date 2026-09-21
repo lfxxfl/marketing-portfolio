@@ -1,0 +1,331 @@
+.sequence {
+  position: relative;
+  z-index: 1;
+  height: 480svh;
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-instrument), serif;
+}
+
+.viewport {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: #000;
+  isolation: isolate;
+}
+
+.world,
+.portal {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.world {
+  z-index: 0;
+  background-color: #000;
+  background-image: var(--asset);
+  transform-origin: 50% 50%;
+}
+
+.clouds {
+  position: absolute;
+  z-index: 13;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 46%;
+  opacity: .7;
+  background-image: var(--asset);
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  transform-origin: 50% 100%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.arcSlider {
+  position: absolute;
+  z-index: 12;
+  right: 0;
+  bottom: 80px;
+  left: 0;
+  height: 360px;
+  opacity: 0;
+  pointer-events: none;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  will-change: opacity;
+}
+
+.arcSlider[data-dragging='true'] { cursor: grabbing; }
+
+.arcCard {
+  position: absolute;
+  width: 220px;
+  height: 270px;
+  overflow: hidden;
+  padding: 1.05rem;
+  border: 1px solid rgba(207, 194, 244, .17);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 88% 7%, rgba(125, 92, 206, .3), transparent 38%),
+    linear-gradient(145deg, rgba(20, 19, 28, .8), rgba(2, 2, 6, .9));
+  color: rgba(251, 248, 255, .96);
+  box-shadow:
+    0 14px 48px rgba(0, 0, 0, .38),
+    inset 0 1px 0 rgba(255, 255, 255, .1),
+    inset 0 -1px 0 rgba(154, 126, 224, .08);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  will-change: transform, left, bottom;
+}
+
+.arcCard > span {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  width: 24px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1.5px solid rgba(198, 184, 235, .28);
+  border-radius: 50%;
+  color: rgba(220, 209, 248, .72);
+  font-size: 10px;
+}
+
+.arcCardImage {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  display: block;
+  width: 90px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .3);
+  transform: translateX(-50%);
+}
+
+.arcCard > div { position: absolute; right: 1.1rem; bottom: 1.15rem; left: 1.1rem; }
+.arcCard h3 { margin: 0; font-family: inherit; font-size: 24px; font-weight: 400; line-height: 1; }
+.arcCard p { margin: .5rem 0 0; color: rgba(221, 217, 231, .67); font-size: 14px; line-height: 1.3; }
+
+.windowStarfield {
+  position: absolute;
+  z-index: 14;
+  inset: 0;
+  opacity: 1;
+  background-color: #000;
+  background-image:
+    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, .95) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 72% 18%, rgba(178, 208, 255, .9) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 44% 62%, rgba(255, 255, 255, .8) 0 .9px, transparent 1.6px),
+    radial-gradient(circle at 82% 76%, rgba(221, 229, 255, .9) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 28% 78%, rgba(147, 184, 255, .78) 0 .8px, transparent 1.5px),
+    radial-gradient(ellipse at 52% 50%, rgba(22, 39, 72, .52), transparent 68%);
+  background-size: 73px 61px, 109px 89px, 83px 97px, 131px 113px, 157px 139px, 100% 100%;
+  clip-path: polygon(37.5% 30.5%, 63% 32.5%, 62.5% 55%, 37.4% 52.5%);
+  transform-origin: 52% 38%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.portal {
+  z-index: 15;
+  background-color: transparent;
+  background-image: var(--asset);
+  transform-origin: 52% 38%;
+}
+
+.bottomFade,
+.topFade {
+  position: absolute;
+  z-index: 16;
+  right: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.bottomFade { bottom: 0; height: 40%; background: linear-gradient(to top, rgba(0, 0, 0, .45), transparent); }
+.topFade { z-index: 45; top: 0; height: 42vh; background: linear-gradient(to bottom, rgba(0, 0, 0, .45), transparent); }
+
+.glowCursor {
+  z-index: 46;
+}
+
+.transitionFade {
+  position: absolute;
+  z-index: 47;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: clamp(7rem, 20vh, 13rem);
+  opacity: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(1, 4, 10, .64) 58%, #01040a 100%);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.curtainClip {
+  position: absolute;
+  z-index: 16;
+  top: 0;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  will-change: left, width;
+}
+
+.curtain {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+  will-change: transform, opacity, left;
+}
+.curtainLeft {
+  background-image: var(--asset);
+  background-position: left center;
+}
+
+.curtainRight {
+  background-image: var(--asset);
+  background-position: right center;
+}
+
+.sceneOne {
+  position: absolute;
+  inset: 0;
+  will-change: opacity;
+}
+
+.sceneOne { z-index: 20; opacity: 1; }
+
+.mobileSceneOne,
+.tabletSceneOne { display: none; }
+
+.desktopHeading {
+  position: absolute;
+  top: 46%;
+  right: clamp(28px, 4vw, 76px);
+  left: auto;
+  width: min(34vw, 440px);
+  max-width: 440px;
+  opacity: 0;
+  transform: translateY(calc(-50% + 18px));
+  transition: opacity .9s ease .3s, transform .9s ease .3s;
+}
+
+.sceneHeading h2 { max-width: 8.5ch; margin: 0; color: #fff; font-family: inherit; font-size: clamp(50px, 7.5vw, 88px); font-weight: 400; letter-spacing: -.02em; line-height: .9; text-transform: uppercase; text-shadow: 0 2px 24px rgba(0, 0, 0, .7), 0 1px 4px rgba(0, 0, 0, .9); }
+.sceneHeading > p { max-width: 300px; margin: 1.5rem 0 0; color: rgba(255, 245, 235, .88); font-family: inherit; font-size: 24px; line-height: 1.35; text-shadow: 0 1px 12px rgba(0, 0, 0, .8); }
+
+.scrollCue {
+  position: absolute;
+  bottom: 29px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: .55rem;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity .9s ease .9s;
+}
+
+.scrollCue > span { color: rgba(255, 255, 255, .6); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; }
+.scrollCue > i { display: grid; width: 34px; aspect-ratio: 1; place-items: center; border: 1.5px solid rgba(255, 255, 255, .5); border-radius: 50%; animation: bob-up 1.8s ease-in-out infinite; }
+.scrollCue b { width: 8px; height: 8px; border-right: 1px solid #fff; border-bottom: 1px solid #fff; transform: translateY(-2px) rotate(45deg); }
+
+.visible .desktopHeading,
+.visible .scrollCue { opacity: 1; }
+.visible .desktopHeading { transform: translateY(-50%); }
+
+@keyframes bob-up {
+  50% { transform: translateY(-6px); }
+}
+
+@media (min-width: 768px) and (max-width: 1099px) {
+  .desktopHeading { display: none; }
+
+  .tabletSceneOne {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+    padding: 80px 32px 96px;
+    opacity: 0;
+    text-align: center;
+    transform: translateY(18px);
+    transition: opacity .9s ease .3s, transform .9s ease .3s;
+  }
+
+  .visible .tabletSceneOne { opacity: 1; transform: none; }
+  .tabletSceneOne .sceneHeading h2 { color: #fff; text-shadow: 0 2px 24px rgba(0, 0, 0, .7), 0 1px 4px rgba(0, 0, 0, .9); }
+  .tabletSceneOne .sceneHeading h2 { max-width: 9ch; margin-inline: auto; font-size: clamp(60px, 12vw, 86px); }
+  .tabletSceneOne .sceneHeading > p { max-width: 400px; margin: 1.2rem auto 0; color: rgba(255, 255, 255, .88); font-size: 22px; text-shadow: 0 1px 12px rgba(0, 0, 0, .8); }
+}
+
+@media (max-width: 767px) {
+  .sequence { height: 480svh; }
+  .desktopHeading,
+  .scrollCue { display: none; }
+
+  .mobileSceneOne {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+    padding: 80px 24px 100px;
+    opacity: 0;
+    text-align: center;
+    transform: translateY(18px);
+    transition: opacity .9s ease .3s, transform .9s ease .3s;
+  }
+
+  .visible .mobileSceneOne { opacity: 1; transform: none; }
+  .mobileSceneOne .sceneHeading h2 { color: #fff; text-shadow: 0 2px 24px rgba(0, 0, 0, .7), 0 1px 4px rgba(0, 0, 0, .9); }
+  .mobileSceneOne .sceneHeading h2 { max-width: 9ch; margin-inline: auto; font-size: clamp(52px, 16vw, 80px); letter-spacing: -.02em; }
+  .mobileSceneOne .sceneHeading > p { max-width: 280px; margin: 1.2rem auto 0; color: rgba(255, 255, 255, .88); font-size: 20px; line-height: 1.4; text-shadow: 0 1px 12px rgba(0, 0, 0, .8); }
+
+  .arcSlider { bottom: 60px; height: 260px; }
+  .arcCard { width: 160px; height: 210px; padding: .9rem; border-radius: 18px; }
+  .arcCardImage { top: 45px; width: 60px; border-radius: 12px; }
+  .arcCard > div { right: .9rem; bottom: .95rem; left: .9rem; }
+  .arcCard h3 { font-size: 18px; }
+  .arcCard p { margin-top: .4rem; font-size: 12px; line-height: 1.25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain,
+  .desktopHeading,
+  .tabletSceneOne,
+  .mobileSceneOne,
+  .scrollCue { transition: none; }
+
+  .scrollCue > i { animation: none; }
+}

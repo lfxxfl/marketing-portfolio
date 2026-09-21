@@ -1,0 +1,6 @@
+allowBuilds:
+  '@ffmpeg-installer/darwin-arm64': set this to true or false
+  '@ffprobe-installer/darwin-arm64': set this to true or false
+  esbuild: true
+  sharp: true
+  workerd: true

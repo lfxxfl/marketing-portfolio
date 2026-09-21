@@ -1,0 +1,54 @@
+.cursor {
+  position: fixed;
+  z-index: 46;
+  inset: 0;
+  width: 100vw;
+  height: 100svh;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.borderCard {
+  --project-glow-x: 50%;
+  --project-glow-y: 50%;
+  --project-glow-intensity: 0;
+  --project-glow-radius: 300px;
+  position: relative;
+}
+
+.borderCard::after {
+  position: absolute;
+  z-index: 32;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: radial-gradient(
+    var(--project-glow-radius) circle at var(--project-glow-x) var(--project-glow-y),
+    rgba(132, 0, 255, calc(var(--project-glow-intensity) * .9)) 0%,
+    rgba(103, 232, 249, calc(var(--project-glow-intensity) * .58)) 28%,
+    rgba(167, 139, 250, calc(var(--project-glow-intensity) * .28)) 43%,
+    transparent 66%
+  );
+  content: '';
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 1;
+  transition: opacity 260ms ease;
+}
+
+@media (max-width: 768px), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor {
+    display: none;
+  }
+
+  .borderCard::after {
+    display: none;
+  }
+}

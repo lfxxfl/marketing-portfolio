@@ -1,0 +1,181 @@
+.sequence {
+  --home-hero-progress: 0;
+  --home-hero-opacity: 1;
+  --home-hero-shift-x: 0vw;
+  --home-hero-rotate-y: 0deg;
+  --home-hero-scale: 1;
+  --home-water-opacity: 1;
+  --home-next-opacity: 0;
+  --home-next-y: 2.4rem;
+  position: relative;
+  isolation: isolate;
+  background: #000;
+}
+
+.heroPin {
+  position: relative;
+  z-index: 0;
+  height: 200svh;
+}
+
+.heroShell {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: rgb(125, 131, 129);
+  perspective: 100rem;
+}
+
+.heroShell > :global(.aircord-home-hero) {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+}
+
+.sequence :global(.aircord-hero-stage) {
+  opacity: var(--home-hero-opacity);
+  transform:
+    translate3d(var(--home-hero-shift-x), 0, 0)
+    rotateY(var(--home-hero-rotate-y))
+    scale(var(--home-hero-scale));
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.sequence :global(.aircord-title-line-primary) {
+  letter-spacing: .042em;
+}
+
+.sequence :global(.aircord-project-window) {
+  --project-cube-depth: 20px;
+  transform-style: preserve-3d;
+}
+
+.sequence :global(.aircord-project-cube),
+.sequence :global(.aircord-project-cube-depth) {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-style: preserve-3d;
+}
+
+.sequence :global(.aircord-project-cube) {
+  pointer-events: auto;
+  transition: transform 900ms cubic-bezier(.16, 1, .3, 1);
+  will-change: transform;
+}
+
+.sequence :global(.aircord-project-cube-depth) {
+  pointer-events: none;
+}
+
+.sequence :global(.aircord-project-cube-face) {
+  position: absolute;
+  display: block;
+  border: 1px solid rgb(28, 30, 33);
+  backface-visibility: hidden;
+}
+
+.sequence :global(.aircord-project-cube-back) {
+  inset: 0;
+  background: rgb(28, 30, 33);
+  box-shadow: 0 .85rem 2rem rgba(0, 0, 0, .32);
+  transform: translateZ(calc(var(--project-cube-depth) * -1));
+}
+
+.sequence :global(.aircord-project-cube-top) {
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: var(--project-cube-depth);
+  background: rgb(28, 30, 33);
+  transform: rotateX(90deg);
+  transform-origin: 50% 100%;
+}
+
+.sequence :global(.aircord-project-cube-right) {
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: var(--project-cube-depth);
+  background: rgb(28, 30, 33);
+  transform: rotateY(90deg);
+  transform-origin: 0 50%;
+}
+
+.sequence :global(.aircord-project-cube-bottom) {
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: var(--project-cube-depth);
+  background: rgb(28, 30, 33);
+  transform: rotateX(-90deg);
+  transform-origin: 50% 0;
+}
+
+.sequence :global(.aircord-project-cube-left) {
+  top: 0;
+  right: 100%;
+  bottom: 0;
+  width: var(--project-cube-depth);
+  background: rgb(28, 30, 33);
+  transform: rotateY(-90deg);
+  transform-origin: 100% 50%;
+}
+
+.sequence :global(.aircord-project-scene) {
+  z-index: 2;
+  transition:
+    background 250ms ease,
+    border-color 350ms ease,
+    box-shadow 500ms ease,
+    transform 900ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.sequence :global(.aircord-project-window:hover .aircord-project-cube),
+.sequence :global(.aircord-project-window:focus-visible .aircord-project-cube) {
+  transform: translateZ(1rem) scale(1.018);
+}
+
+.sequence :global(.aircord-project-window:hover .aircord-project-scene),
+.sequence :global(.aircord-project-window:focus-visible .aircord-project-scene) {
+  transform: none;
+}
+
+.sequence > :global(.home-liquid-transition) {
+  position: relative;
+  z-index: 5;
+}
+
+.sequence :global(.home-liquid-content) {
+  opacity: var(--home-next-opacity);
+  transform: translate3d(0, var(--home-next-y), 0);
+  will-change: opacity, transform;
+}
+
+.sequence :global(.home-liquid-top-fade),
+.sequence :global(.home-liquid-bridge-canvas) {
+  opacity: var(--home-water-opacity);
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroPin {
+    height: auto;
+  }
+
+  .heroShell {
+    position: relative;
+  }
+
+  .sequence :global(.aircord-hero-stage) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sequence :global(.home-liquid-content) {
+    opacity: 1;
+    transform: none;
+  }
+}

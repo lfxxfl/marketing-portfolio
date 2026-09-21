@@ -1,0 +1,77 @@
+.stage.stage {
+  background: #000;
+}
+
+.glowCursor {
+  z-index: 6;
+}
+
+.heading {
+  perspective: 500px;
+  transform-style: preserve-3d;
+}
+
+.line {
+  display: block;
+  white-space: nowrap;
+  transform-style: preserve-3d;
+}
+
+.line + .line {
+  margin-top: .24em;
+}
+
+.headingCharacter,
+.copyCharacter {
+  display: inline-block;
+  opacity: .08;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity, filter;
+}
+
+.space {
+  width: .24em;
+}
+
+.copy {
+  perspective: 500px;
+  transform-style: preserve-3d;
+}
+
+.word {
+  display: inline-block;
+  margin-right: .26em;
+  white-space: nowrap;
+}
+
+.word:last-child {
+  margin-right: 0;
+}
+
+.copyCharacter {
+  transform-origin: 50% 100%;
+}
+
+@media (max-width: 700px) {
+  .line {
+    white-space: normal;
+  }
+
+  .line + .line {
+    margin-top: .18em;
+  }
+
+  .headingCharacter {
+    will-change: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headingCharacter,
+  .copyCharacter {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    will-change: auto;
+  }
+}
